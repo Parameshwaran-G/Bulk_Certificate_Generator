@@ -7,6 +7,12 @@ from app.model.generator_model import GeneratorModel
 
 W , H = landscape(A4)
 
+unique_list = []
+
+def generation_status():
+    valid_generations = len(unique_list)
+    return valid_generations
+
 def get_grade(score: int) -> str:
     if score >= 90:
         return "with Distinction"
@@ -68,11 +74,11 @@ def generate_zip(certificate_list : list[tuple[str,bytes]]) -> bytes:
     return buffer.getvalue()
 
 def generate_certificates_service(generator : GeneratorModel):
+    valid_generations = 0
     course_name = generator.course_name
     issue_date = generator.issue_date
     recipients = generator.recipient_details
     seen_emails = set()
-    unique_list = []
     certificates = []
     
     for recipient_obj in recipients:
